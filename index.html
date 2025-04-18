@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTDR Profit Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full">
+    <h1 class="text-2xl font-bold mb-6 text-center">MTDR Profit Calculator</h1>
+    <div class="space-y-4">
+      <input id="principal" type="number" placeholder="Principal Amount" class="w-full p-3 border border-gray-300 rounded-xl">
+      <input id="rate" type="number" placeholder="Yearly Profit Rate (%)" class="w-full p-3 border border-gray-300 rounded-xl">
+      <input id="term" type="number" placeholder="Term (in days)" class="w-full p-3 border border-gray-300 rounded-xl">
+      <button onclick="calculateProfit()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl">Calculate</button>
+    </div>
+    <div id="result" class="mt-6 text-gray-700 text-center space-y-2"></div>
+  </div>
+
+  <script>
+    function calculateProfit() {
+      const principal = parseFloat(document.getElementById('principal').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+      const term = parseFloat(document.getElementById('term').value);
+
+      if (isNaN(principal) || isNaN(rate) || isNaN(term)) {
+        document.getElementById('result').innerHTML = '<p class="text-red-600">Please fill all fields correctly.</p>';
+        return;
+      }
+
+      const yearlyProfit = (principal * rate) / 100;
+      const yearlyProfitAfterTax = yearlyProfit * 0.9;
+
+      const dailyRate = rate / 365;
+      const termProfit = (principal * dailyRate * term) / 100;
+      const termProfitAfterTax = termProfit * 0.9;
+
+      document.getElementById('result').innerHTML = `
+        <p><strong>Yearly Profit (after tax):</strong> $${yearlyProfitAfterTax.toFixed(2)}</p>
+        <p><strong>Profit After ${term} Days (after tax):</strong> $${termProfitAfterTax.toFixed(2)}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
